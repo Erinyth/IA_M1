@@ -1,0 +1,8 @@
+4
+2
+age:%12
+nom:michel
+symptome:fievre
+symptome:mal
+symptome = fievre,symptome = mal / maladie = gastro
+age <= 20 / jeune = vrai
