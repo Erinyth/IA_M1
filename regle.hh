@@ -31,13 +31,13 @@ public:
     /*
      *  Getters
      */
-    Condition getConditionsIndice(int indice)
+    std::vector<Condition> getConditions()
     {
-        return vecConditions[indice];
+        return vecConditions;
     }
 
-    Resultat getResRegleIndice(int indice){
-        return vecResultatRegle[indice];
+    std::vector<Resultat> getResRegle(){
+        return vecResultatRegle;
     }
 
 
@@ -53,6 +53,21 @@ public:
     void ajoutCondition(Condition cond)
     {
         vecConditions.push_back(cond);
+    }
+
+    bool estRegleApplicable(baseDeConnaissance & BDC)
+    {
+        unsigned int nbConditionsApplicables(0);
+        for (unsigned int i(0); i<vecConditions.size(); i++)
+        {
+            if (vecConditions[i].estConditionApplicable(BDC))
+                nbConditionsApplicables++;
+        }
+
+        if (nbConditionsApplicables == vecConditions.size())
+            return true;
+        else
+            return false;
     }
 
 private:

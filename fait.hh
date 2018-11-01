@@ -14,29 +14,41 @@ public:
 
     void affichageFait()
     {
-        std::cout << "Type fait: " << typeFait << ", Valeur fait: " << valFait << std::endl;
+        if (valEstChiffre)
+            std::cout << "Type fait: " << typeFait << ", Valeur fait: " << valFait << ", Valeur chiffrée" << std::endl;
+        else
+            std::cout << "Type fait: " << typeFait << ", Valeur fait: " << valFait << ", Valeur chaine" << std::endl;
+
     }
 
     /*
      *  Getters
      */
-    std::string getTypeFait()
+    std::string getTypeFait() const
     {
         return typeFait;
     }
 
-    std::string getValFait()
+    std::string getValFait() const
     {
         return valFait;
     }
 
-    int getValFaitChiffre()
+    int getValFaitChiffre() const
     {
         return valFaitChiffre;
     }
 
     bool estFaitChiffre()
     { return valEstChiffre; }
+
+    bool const operator==(Fait const& b)
+    {
+        if ((this->typeFait == b.getTypeFait()) && (this->valFait == b.getValFait()) && (this->valFaitChiffre == b.getValFaitChiffre()))
+            return true;
+        else
+            return false;
+    }
 
 
     /*

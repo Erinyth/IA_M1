@@ -3,6 +3,8 @@
 #include <vector>
 #include <iostream>
 
+class baseDeConnaissance;
+
 class Condition{
 public:
     Condition(std::string eltTest, std::string valeur, std::string op, bool chiffre): eltTeste(eltTest), valeurChaine(valeur), operateur(op), valEstChiffre(chiffre)
@@ -31,7 +33,10 @@ public:
     void affichageCondition()
     {
         std::cout << eltTeste << " " << operateur << " " << valeurChaine << std::endl;
+        std::cout << "Test: " << valeurInt + 50 << std::endl;
     }
+
+    bool estConditionApplicable(baseDeConnaissance & bdc);
 
 private:
     std::string eltTeste;

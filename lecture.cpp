@@ -59,9 +59,20 @@ Resultat creerResultat(std::string chaineResultat)
 {
     std::vector<std::string> chaineRes = explode(chaineResultat, ' ');
     std::string elementTmp = chaineRes[1];
+    std::string opTmp = chaineRes[2];
     std::string valeurTmp = chaineRes[3];
+    bool estChiffre;
 
-    Resultat resTmp(elementTmp, valeurTmp);
+    //Comparaison du premier caractère de la valeur
+    std::string premCar = valeurTmp.substr(0,1);
+    if (premCar == "%") //Si la valeur est un integer
+    {
+        std::string valeurSansPourcent = valeurTmp.substr(1);
+        valeurTmp = valeurSansPourcent;
+        estChiffre = true;
+    }
+
+    Resultat resTmp(elementTmp,valeurTmp,opTmp,estChiffre);
     return resTmp;
 }
 
