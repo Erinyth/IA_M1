@@ -1,9 +1,12 @@
 4
-3
+4
 age:%19
 nom:michel
 symptome:fievre
 symptome:mal
-age = %19 / jeune = vrai
+symptome = rides,jeune = vrai / jean = bizarre
 symptome = fievre,symptome = mal / maladie = gastro
+age = %25 / jeune = vrai
 nom = michel / symptome = rides
+
+

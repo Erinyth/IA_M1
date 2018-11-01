@@ -12,24 +12,24 @@ public:
         }
     }
 
-    std::string getElement()
+    std::string getElement() const
     { return element; }
 
-    std::string getValeur()
+    std::string getValeur() const
     { return valeur; }
 
-    std::string getOperateur()
+    std::string getOperateur() const
     { return operateur; }
 
-    bool estResultatChiffre()
+    bool estResultatChiffre() const
     { return estValeurChiffree; }
 
-    int valeurResultatChiffre()
+    int valeurResultatChiffre() const
     { return valeurChiffre; }
 
     void affichageResultat()
     {
-        std::cout << element  << " = " << valeur << std::endl;
+        std::cout << element << " " << operateur << " " << valeur << std::endl;
     }
 
 

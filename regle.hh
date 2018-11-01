@@ -2,75 +2,67 @@
 
 #include "condition.hh"
 #include "resultat.hh"
+#include "fait.hh"
 #include <iostream>
 
 class Regle{
 public:
-    Regle(): vecConditions(), vecResultatRegle()
+    Regle(): vecConditions(), vecResultatRegle(), chainageAvantEffectue(false), chainageArriereEffectue(false)
     {}
-
-    /**
-     * @brief affichageRegle affiche toutes les informations concernant une règle
-     */
-    void affichageRegle()
-    {
-        std::cout << "Condition(s) de la règle:" << std::endl;
-        for (unsigned int i(0); i<vecConditions.size(); i++)
-        {
-            vecConditions[i].affichageCondition();
-        }
-        std::cout << std::endl;
-        std::cout << "Resultat(s) de la règle:" << std::endl;
-        for (unsigned int i(0); i<vecResultatRegle.size(); i++)
-        {
-            vecResultatRegle[i].affichageResultat();
-        }
-        std::cout << std::endl;
-    }
 
     /*
      *  Getters
      */
-    std::vector<Condition> getConditions()
-    {
-        return vecConditions;
-    }
+    std::vector<Condition>& getConditions()
+    { return vecConditions; }
 
-    std::vector<Resultat> getResRegle(){
-        return vecResultatRegle;
-    }
+    std::vector<Resultat>& getResRegle()
+    { return vecResultatRegle; }
 
+    bool chainageAvantEstFait() const
+    { return chainageAvantEffectue; }
+
+    bool chainageArriereEstFait() const
+    { return chainageArriereEffectue; }
 
     /*
      *  Setters
      */
     void ajoutResultat(Resultat res)
-    {
-        vecResultatRegle.push_back(res);
-    }
-
+    { vecResultatRegle.push_back(res); }
 
     void ajoutCondition(Condition cond)
-    {
-        vecConditions.push_back(cond);
-    }
+    { vecConditions.push_back(cond); }
 
-    bool estRegleApplicable(baseDeConnaissance & BDC)
-    {
-        unsigned int nbConditionsApplicables(0);
-        for (unsigned int i(0); i<vecConditions.size(); i++)
-        {
-            if (vecConditions[i].estConditionApplicable(BDC))
-                nbConditionsApplicables++;
-        }
+    void chainageAvantComplete()
+    { chainageAvantEffectue = true; }
 
-        if (nbConditionsApplicables == vecConditions.size())
-            return true;
-        else
-            return false;
-    }
+    void chainageArriereComplete()
+    { chainageArriereEffectue = true; }
+
+    /*
+     *  Methodes
+     */
+    /**
+     * @brief estRegleApplicable retourne vrai si la règle est appliquable avec la BDC actuelle
+     * @param BDC
+     * @return */
+    bool estRegleApplicable(baseDeConnaissance * BDC) const;
+
+    /**
+     * @brief estResultat retourne vrai si l'élément est un résultat de cette règle
+     * @param BDC
+     * @return
+     */
+    bool estResultat(Fait & faitATest) const;
+
+    /** @brief affichageRegle affiche toutes les informations concernant une règle */
+    void affichageRegle();
 
 private:
     std::vector<Condition> vecConditions;
     std::vector<Resultat> vecResultatRegle;
+
+    bool chainageAvantEffectue;
+    bool chainageArriereEffectue;
 };

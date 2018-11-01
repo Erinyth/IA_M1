@@ -9,14 +9,14 @@ int main()
 {
     baseDeConnaissance BDC;
 
-
     cout<< "Lecture" << endl;
     //PC FAC
-    char * fichierBC = "/home/etudiant/Bureau/Cours/IA/Projet/ProjetIASysExp/baseDeConnaissance.txt";
+    //char * fichierBC = "/home/etudiant/Bureau/Cours/IA/Projet/ProjetIASysExp/baseDeConnaissance.txt";
     //PC MAISON
-    //char * fichierBC = "/home/prozengan/ProjetIASysExp/baseDeConnaissance.txt";
+    char * fichierBC = "/home/prozengan/Bureau/IA_M1/baseDeConnaissance.txt";
     creationBaseConnaissance(fichierBC, BDC);
 
+    /* AFFICHAGE POUR VERIFIER LA LECTURE CONFORME
     std::cout << "***************************** AFFICHAGE DE TOUS LES FAITS INITIAUX *****************************" << std::endl;
     BDC.affichageEnsembleFaits();
     std::cout << std::endl;
@@ -24,16 +24,16 @@ int main()
     std::cout << "***************************** AFFICHAGE DE TOUTES LES REGLES INITIALES *****************************" << std::endl;
     BDC.affichageEnsembleRegles();
     std::cout << std::endl;
+    */
 
     std::cout << "***************************** TESTS *****************************" << std::endl;
 
-
-    Fait test("nom","jean",false);
-    Moteur m1(BDC);
-    m1.chainageAvant(test);
-
-    std::cout << "***************************** AFFICHAGE DE TOUS LES FAITS FINAUX *****************************" << std::endl;
-    //BDC.affichageEnsembleFaits();
+    Fait test("jean","bizarre",false);
+    Moteur m1(&BDC);
+    //m1.chainageAvant(test);
+    m1.chainageArriere(test);
+   // std::cout << "***************************** AFFICHAGE DE TOUS LES FAITS FINAUX *****************************" << std::endl;
+   // BDC.affichageEnsembleFaits();
     std::cout << std::endl;
 
 

@@ -4,7 +4,15 @@
 
 class Fait{
 public:
-    Fait(std::string type, std::string val, bool chiffre): typeFait(type), valFait(val), valEstChiffre(chiffre), valFaitChiffre()
+    Fait(std::string type, std::string val, bool chiffre): typeFait(type), valFait(val), operateur("="), valEstChiffre(chiffre), valFaitChiffre()
+    {
+        if (valEstChiffre)
+        {
+            valFaitChiffre = std::stoi(valFait);
+        }
+    }
+
+    Fait(std::string type, std::string oper, std::string val, bool chiffre): typeFait(type), operateur(oper), valFait(val), valEstChiffre(chiffre), valFaitChiffre()
     {
         if (valEstChiffre)
         {
@@ -50,6 +58,9 @@ public:
             return false;
     }
 
+    std::string getOper() const
+    { return operateur; }
+
 
     /*
      *  Setters
@@ -70,4 +81,6 @@ private:
 
     bool valEstChiffre;
     int valFaitChiffre;
+
+    std::string operateur;
 };

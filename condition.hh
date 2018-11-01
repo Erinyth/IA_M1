@@ -15,28 +15,39 @@ public:
         }
     }
 
-    std::string getEltTest()
+    std::string getEltTest() const
     { return eltTeste; }
 
-    std::string getValeurChaine()
+    std::string getValeurChaine() const
     {  return valeurChaine; }
 
-    std::string getOperateur()
+    std::string getOperateur() const
     { return operateur; }
 
-    bool estValChiffre()
+    bool estValChiffre() const
     { return valEstChiffre; }
 
-    int getValeurChiffre()
+    int getValeurChiffre() const
     { return valeurInt; }
 
-    void affichageCondition()
+    void affichageCondition() const
     {
-        std::cout << eltTeste << " " << operateur << " " << valeurChaine << std::endl;
-        std::cout << "Test: " << valeurInt + 50 << std::endl;
+        std::cout << eltTeste << " " << operateur << " " << valeurChaine;
     }
 
-    bool estConditionApplicable(baseDeConnaissance & bdc);
+    /**
+     * @brief estConditionApplicable Retourne true si une condition est applicable
+     * @param bdc
+     * @return
+     */
+    bool estConditionApplicable(baseDeConnaissance * bdc) const;
+
+    /**
+     * @brief estResultatAutreRegle Retourne true si cette condition est le résultat d'une règle
+     * @param BDC
+     * @return
+     */
+    bool estResultatAutreRegle(baseDeConnaissance * BDC) const;
 
 private:
     std::string eltTeste;

@@ -19,10 +19,10 @@ public:
     unsigned int getNbRegles()
     { return nbRegles; }
 
-    std::vector<Fait> getFaits()
+    std::vector<Fait>& getFaits()
     { return listeFait; }
 
-    std::vector<Regle> getRegles()
+    std::vector<Regle>& getRegles()
     { return listeRegle; }
 
     /**
@@ -34,7 +34,7 @@ public:
     void ajoutRegle(Regle r)
     { listeRegle.push_back(r); }
 
-    /**
+     /**
      * Méthodes d'affichage des règles et faits
      */
     void affichageEnsembleFaits()
