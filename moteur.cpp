@@ -90,52 +90,84 @@ void Moteur::chainageAvant(Fait & faitATest)
 
 bool Moteur::verifierPremisses(Regle & regTmp)
 {
+    bool valide = true;
     bool OK = true;
     //On vérifier les prémisses de cette règle, un à un
     for (unsigned int j(0); j<regTmp.getConditions().size();j++)
     {
-        std::cout << "DEBUG: ";
+        //
+        std::cout << "DEBUG VERIF PREMISSE: ";
         regTmp.getConditions()[j].affichageCondition();
         std::cout << std::endl;
-        //Si la condition n'est ni connue ni un résultat de règle
+        //
+        //Si la condition n'est ni connue dans la BDC ni un résultat de règle
         if (!regTmp.getConditions()[j].estResultatAutreRegle(BDC) && !regTmp.getConditions()[j].estConditionApplicable(BDC))
         {
+            //
+            std::cout << "DEBUG: La condition:";
+            regTmp.getConditions()[j].affichageCondition();
+            std::cout << "ne peut être obtenue." << std::endl;
+            //
             OK = false;
+            valide = false;
             break;
         }
     }
-    if (OK) //Toutes les conditions sont des résultats de règle, ou alors sont vérifiables dans la BDC
-            //On va donc vérifier que ces conditions sont elles même réalisables
+    if (OK) //Toutes les conditions sont des résultats de règle, ou alors sont applicables via la BDC
+        //On va donc vérifier que ces conditions sont elles même réalisables
     {
-        std::cout << "Coucou" << std::endl;
+        std::cout << "DEBUG: Toutes les prémisses pour cette fois sont réalisables." << std::endl;
         for (unsigned int i(0); i<regTmp.getConditions().size();i++) //Parcours des conditions
         {
-            if (regTmp.getConditions()[i].getOperateur() == "=") //Cas classique
+            if (regTmp.getConditions()[i].getOperateur() == "=") //Cas du =
             {
-                std::cout << "On est ici normalement" << std::endl;
+                //Dans ce cas, on doit juste vérifier que le fait fonctionne pour cette valeur
                 Fait faitTmp(regTmp.getConditions()[i].getEltTest(),regTmp.getConditions()[i].getValeurChaine(),regTmp.getConditions()[i].estValChiffre());
-                return chainageArriere(faitTmp);
+                //
+                //std::cout << "CAS DU =" << std::endl;
+                //std::cout << "DEBUG: Lancement chainage arrière de: ";
+                //faitTmp.affichageFait();
+                //std::cout << std::endl;
+                //
+                valide = valide && chainageArriere(faitTmp);
             }
+            if (regTmp.getConditions()[i].getOperateur() == "<>") //Cas du =
+            {
+                //Dans ce cas, on doit juste vérifier que le fait fonctionne pour cette valeur
+                Fait faitTmp(regTmp.getConditions()[i].getEltTest(),regTmp.getConditions()[i].getValeurChaine(),regTmp.getConditions()[i].estValChiffre());
+                //
+                //std::cout << "CAS DU =" << std::endl;
+                //std::cout << "DEBUG: Lancement chainage arrière de: ";
+                //faitTmp.affichageFait();
+                //std::cout << std::endl;
+                //
+                valide = valide && !chainageArriere(faitTmp);
+            }
+            //On doit trouver ici un fait qui valide
             if (regTmp.getConditions()[i].getOperateur() == "<")
             {
-                bool valide;
+                std::cout << "CAS DU <" << std::endl;
                 for (unsigned int j(0); j<regTmp.getConditions()[i].getValeurChiffre();j++) //Parcours des conditions
                 {
                     std::stringstream ss;
                     ss << j;
                     std::string str = ss.str();
                     Fait faitTmp(regTmp.getConditions()[i].getEltTest(),str,regTmp.getConditions()[i].estValChiffre());
+                    //
+                    //std::cout << "DEBUG: Lancement chainage arrière de: ";
+                    //faitTmp.affichageFait();
+                    //std::cout << std::endl;
+                    //
                     valide = chainageArriere(faitTmp);
-                    if (!valide)
+                    if (valide)
                     {
                         break;
-                        return !valide;
                     }
                 }
             }
         }
     }
-    return true;
+    return valide;
 }
 
 
@@ -163,6 +195,9 @@ bool Moteur::chainageArriere(Fait & faitATest)
             }
         }
 
+        if (vecSousBut.size() == 0)
+            return false;
+
         bool valide = true;
         while (valide && (vecSousBut.size() > 0))
         {
@@ -176,20 +211,9 @@ bool Moteur::chainageArriere(Fait & faitATest)
             //On vérifier les prémisses
             valide = valide && verifierPremisses(regTmp);
         }
-        if (appartientFaitBDC(faitATest))
-        {
-            std::cout << "Le fait suivant: ";
-            faitATest.affichageFait();
-            std::cout << "a été obtenu. C'est un succès!" << std::endl;
-            return valide;
-        }
-        else
-        {
-            std::cout << "Le fait suivant: ";
-            faitATest.affichageFait();
-            std::cout << "n'a pas été obtenu. C'est un échec!" << std::endl;
-            return !valide;
-        }
+
+        return valide;
+
         std::cout << "***** CHAINAGE ARRIERE TERMINE *****" << std::endl;
     }
 }

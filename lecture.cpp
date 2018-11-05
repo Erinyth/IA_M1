@@ -132,8 +132,12 @@ void creationBaseConnaissance(char* fichierDonnees, baseDeConnaissance & BDC)
         getline(fichier, ligneEnCours);
         BDC.setNbRegles(std::stoi(ligneEnCours));
 
+        getline(fichier, ligneEnCours);    //Ligne /--Faits
+
         //Création de tous les faits
         creerFaits(fichier,BDC);
+
+        getline(fichier, ligneEnCours);    //Ligne /--Regles
 
         //Création de toutes les règles
         creerRegles(fichier,BDC);

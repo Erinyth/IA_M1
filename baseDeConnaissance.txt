@@ -1,12 +1,14 @@
 4
 4
+/-- Faits
 age:%19
 nom:michel
 symptome:fievre
 symptome:mal
-symptome = rides,jeune = vrai / jean = bizarre
+/-- Regles
+symptome = rides,jeune = vrai / michel = bizarre
 symptome = fievre,symptome = mal / maladie = gastro
-age = %25 / jeune = vrai
+age < %25 / jeune = vrai
 nom = michel / symptome = rides
 
 

@@ -9,11 +9,11 @@ int main()
 {
     baseDeConnaissance BDC;
 
-    cout<< "Lecture" << endl;
+    // std::cout<< "DEBUG: Lecture" << std::endl;
     //PC FAC
-    //char * fichierBC = "/home/etudiant/Bureau/Cours/IA/Projet/ProjetIASysExp/baseDeConnaissance.txt";
+    char * fichierBC = "/home/etudiant/Bureau/Cours/IA/IA_M1/baseDeConnaissance.txt";
     //PC MAISON
-    char * fichierBC = "/home/prozengan/Bureau/IA_M1/baseDeConnaissance.txt";
+    //char * fichierBC = "/home/prozengan/Bureau/IA_M1/baseDeConnaissance.txt";
     creationBaseConnaissance(fichierBC, BDC);
 
     /* AFFICHAGE POUR VERIFIER LA LECTURE CONFORME
@@ -28,12 +28,25 @@ int main()
 
     std::cout << "***************************** TESTS *****************************" << std::endl;
 
-    Fait test("jean","bizarre",false);
+    Fait test("michel","bizarre",false);
     Moteur m1(&BDC);
     //m1.chainageAvant(test);
-    m1.chainageArriere(test);
-   // std::cout << "***************************** AFFICHAGE DE TOUS LES FAITS FINAUX *****************************" << std::endl;
-   // BDC.affichageEnsembleFaits();
+    bool chainAr = m1.chainageArriere(test);
+    if (chainAr)
+    {
+        std::cout << "Le chainage arrière pour ";
+        test.affichageFait();
+        std::cout << " est un succès!" << std::endl;
+    }
+    else
+    {
+        std::cout << "Le chainage arrière pour ";
+        test.affichageFait();
+        std::cout << " est un échec!" << std::endl;
+    }
+
+    // std::cout << "***************************** AFFICHAGE DE TOUS LES FAITS FINAUX *****************************" << std::endl;
+    // BDC.affichageEnsembleFaits();
     std::cout << std::endl;
 
 
