@@ -11,9 +11,9 @@ int main()
 
     // std::cout<< "DEBUG: Lecture" << std::endl;
     //PC FAC
-    char * fichierBC = "/home/etudiant/Bureau/Cours/IA/IA_M1/baseDeConnaissance.txt";
+    //char * fichierBC = "/home/etudiant/Bureau/Cours/IA/IA_M1/baseDeConnaissance.txt";
     //PC MAISON
-    //char * fichierBC = "/home/prozengan/Bureau/IA_M1/baseDeConnaissance.txt";
+    char * fichierBC = "/home/prozengan/Bureau/IA_M1/baseDeConnaissance.txt";
     creationBaseConnaissance(fichierBC, BDC);
 
     /* AFFICHAGE POUR VERIFIER LA LECTURE CONFORME
@@ -45,8 +45,8 @@ int main()
         std::cout << " est un échec!" << std::endl;
     }
 
-    // std::cout << "***************************** AFFICHAGE DE TOUS LES FAITS FINAUX *****************************" << std::endl;
-    // BDC.affichageEnsembleFaits();
+    std::cout << "***************************** AFFICHAGE DE TOUS LES FAITS FINAUX *****************************" << std::endl;
+    BDC.affichageEnsembleFaits();
     std::cout << std::endl;
 
 

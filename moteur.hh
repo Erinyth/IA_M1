@@ -22,6 +22,12 @@ public:
     bool appartientFaitBDC(Fait & faitATest);
 
     /**
+     * @brief ajoutFaitAvecOperateur Ajout des faits en fonction des opérateurs <, <=, >=, >=
+     * @param oper
+     */
+    void ajoutFaitAvecOperateur(std::string oper);
+
+    /**
      * @brief chainageAvant Lance le moteur en chainage avant
      * @param faitATest
      */
@@ -38,6 +44,15 @@ public:
      * @return
      */
     bool verifierPremisses(Regle & regTmp);
+
+    /**
+     * @brief testFaitAvecOperateur Vérifie si un fait menant à cette condition existe dans la BDC, et vérifiant les signes
+     * <, <=, =>, >, donc en parcourant tous les cas possibles
+     * @param condTMP
+     * @param oper
+     * @return
+     */
+    bool testConditionAvecOperateur(Condition & condTMP);
 
 private:
     baseDeConnaissance * BDC;

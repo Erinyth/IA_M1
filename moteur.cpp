@@ -1,6 +1,8 @@
 #include "moteur.hh"
 #include <sstream>
 
+#define TAILLE_MAX_TEST 100000000
+
 bool Moteur::appartientFaitBDC(Fait & faitATest)
 {
     for (unsigned int i(0); i<BDC->getFaits().size(); i++)
@@ -42,6 +44,11 @@ bool Moteur::regleApplicableExistante(std::string type)
             }
     }
     return false;
+}
+
+void Moteur::ajoutFaitAvecOperateur(std::string oper)
+{
+
 }
 
 void Moteur::chainageAvant(Fait & faitATest)
@@ -88,6 +95,63 @@ void Moteur::chainageAvant(Fait & faitATest)
     std::cout << "***** CHAINAGE AVANT TERMINE *****" << std::endl;
 }
 
+bool Moteur::testConditionAvecOperateur(Condition & condTMP)
+{
+    std::cout << "Super test de condition" << std::endl;
+    bool valide = true;
+    unsigned int valeurFait = condTMP.getValeurChiffre();
+    std::string oper = condTMP.getOperateur();
+    //Méthode qui va être répétée pour tous les opérateurs autre que = et <>,
+    //avec le for qui va changer suivant les opérateurs
+    if (oper == "<" || oper == "<=")
+    {
+        if (oper == "<")
+            valeurFait = valeurFait-1;
+        std::cout << "DEBUG: ValeurFait initial = " << valeurFait << std::endl;
+        for (valeurFait; valeurFait>=0; valeurFait--)
+        {
+            std::stringstream ss;
+            ss << valeurFait;
+            std::string valTmp = ss.str(); //Conversion de la valeur numérique en chaine pour créer un fait à tester
+            // Création du fait à tester
+            Fait faitTmp(condTMP.getEltTest(),valTmp,condTMP.estValChiffre());
+            std::cout << "Fait en cours:" << std::endl;
+            faitTmp.affichageFait();
+            std::cout << std::endl;
+            // On lance le chainage arrière sur ce fait temporaire
+            valide = chainageArriere(faitTmp);
+            //Si le fait est vérifiable
+            if (valide)
+            {
+                //Il existe un fait vérifiable, donc on arrête notre recherche
+                break;
+            }
+        }
+    }
+    if (oper == ">=" || oper == ">")
+    {
+        if (oper == ">")
+            valeurFait = valeurFait+1;
+        std::cout << "DEBUG: ValeurFait initial = " << valeurFait << std::endl;
+        for (valeurFait; valeurFait<=TAILLE_MAX_TEST; valeurFait++)
+            //On peut mettre une grand valeur de TAILLE_MAX_TEST puisque l'on vérifiera d'abord qu'il existe un élément
+            //de taille supérieure à la valeurFait initiale. On arrivera pas jusqu'a ce for sinon
+        {
+            std::stringstream ss;
+            ss << valeurFait;
+            std::string valTmp = ss.str();
+            Fait faitTmp(condTMP.getEltTest(),valTmp,condTMP.estValChiffre());
+            std::cout << "Fait en cours:" << std::endl;
+            faitTmp.affichageFait();
+            std::cout << std::endl;
+            valide = chainageArriere(faitTmp);
+            if (valide)
+                break;
+        }
+    }
+    return valide;
+}
+
 bool Moteur::verifierPremisses(Regle & regTmp)
 {
     bool valide = true;
@@ -123,53 +187,30 @@ bool Moteur::verifierPremisses(Regle & regTmp)
             {
                 //Dans ce cas, on doit juste vérifier que le fait fonctionne pour cette valeur
                 Fait faitTmp(regTmp.getConditions()[i].getEltTest(),regTmp.getConditions()[i].getValeurChaine(),regTmp.getConditions()[i].estValChiffre());
-                //
-                //std::cout << "CAS DU =" << std::endl;
-                //std::cout << "DEBUG: Lancement chainage arrière de: ";
-                //faitTmp.affichageFait();
-                //std::cout << std::endl;
-                //
                 valide = valide && chainageArriere(faitTmp);
             }
             if (regTmp.getConditions()[i].getOperateur() == "<>") //Cas du =
             {
-                //Dans ce cas, on doit juste vérifier que le fait fonctionne pour cette valeur
+                //Dans ce cas, on doit juste vérifier que le fait ne fonctionn pas pour cette valeur
                 Fait faitTmp(regTmp.getConditions()[i].getEltTest(),regTmp.getConditions()[i].getValeurChaine(),regTmp.getConditions()[i].estValChiffre());
                 //
-                //std::cout << "CAS DU =" << std::endl;
+                //std::cout << "CAS DU <>" << std::endl;
                 //std::cout << "DEBUG: Lancement chainage arrière de: ";
                 //faitTmp.affichageFait();
                 //std::cout << std::endl;
                 //
                 valide = valide && !chainageArriere(faitTmp);
             }
-            //On doit trouver ici un fait qui valide
-            if (regTmp.getConditions()[i].getOperateur() == "<")
+            //On doit trouver ici un fait qui valide pour <, >, <=, >=
+            else
             {
-                std::cout << "CAS DU <" << std::endl;
-                for (unsigned int j(0); j<regTmp.getConditions()[i].getValeurChiffre();j++) //Parcours des conditions
-                {
-                    std::stringstream ss;
-                    ss << j;
-                    std::string str = ss.str();
-                    Fait faitTmp(regTmp.getConditions()[i].getEltTest(),str,regTmp.getConditions()[i].estValChiffre());
-                    //
-                    //std::cout << "DEBUG: Lancement chainage arrière de: ";
-                    //faitTmp.affichageFait();
-                    //std::cout << std::endl;
-                    //
-                    valide = chainageArriere(faitTmp);
-                    if (valide)
-                    {
-                        break;
-                    }
-                }
+                //On appelle la fonction qui va vérifier tous les faits possible menant à la condition
+                valide = valide && testConditionAvecOperateur(regTmp.getConditions()[i]);
             }
         }
     }
     return valide;
 }
-
 
 bool Moteur::chainageArriere(Fait & faitATest)
 {
@@ -194,7 +235,6 @@ bool Moteur::chainageArriere(Fait & faitATest)
                 vecSousBut.push_back(BDC->getRegles()[i]);
             }
         }
-
         if (vecSousBut.size() == 0)
             return false;
 
@@ -210,6 +250,9 @@ bool Moteur::chainageArriere(Fait & faitATest)
             vecSousBut.erase(vecSousBut.begin());
             //On vérifier les prémisses
             valide = valide && verifierPremisses(regTmp);
+
+            if (valide) //Les prémisses sont vérifiées, on ajoute l'élément
+                BDC->ajoutFait(faitATest);
         }
 
         return valide;

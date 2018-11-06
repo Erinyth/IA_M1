@@ -80,3 +80,5 @@ bool Condition::estResultatAutreRegle(baseDeConnaissance * BDC) const
     }
     return false;
 }
+
+
