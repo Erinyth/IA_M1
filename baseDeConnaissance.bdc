@@ -1,16 +1,17 @@
 4
 4
 /-- Faits
-age:%19
+age:%12
 nom:michel
 symptome:fievre
 symptome:mal
 /-- Regles
-symptome <> rides,jeune = vrai / michel = bizarre
+age < %15 / jeune = vrai
+symptome = rides,jeune = vrai / michel = bizarre
 symptome = fievre,symptome = mal / maladie = gastro
-age <= %25 / jeune = vrai
 nom = michel / symptome = rides
 
 Voici un exemple de base de connaissance fonctionnelle
+en chainage avant et arrière (Exemple avec michel:bizarre en recherche)
 Le premier chiffre est le nombre de faits
 Le second chiffre est le nombre de règles

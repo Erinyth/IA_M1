@@ -32,6 +32,12 @@ public:
         std::cout << element << " " << operateur << " " << valeur << std::endl;
     }
 
+    std::string InformationResultat()
+    {
+        std::string InfoResultat = "";
+        InfoResultat = InfoResultat + element + " " + operateur + " " + valeur + "\n";
+        return InfoResultat;
+    }
 
 private:
     std::string element;

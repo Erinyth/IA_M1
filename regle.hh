@@ -50,14 +50,20 @@ public:
     bool estRegleApplicable(baseDeConnaissance * BDC) const;
 
     /**
-     * @brief estResultat retourne vrai si l'élément est un résultat de cette règle
+     * @brief donneResultat retourne vrai si l'élément est un résultat de cette règle
      * @param BDC
      * @return
      */
-    bool estResultat(Fait & faitATest) const;
+    bool donneResultat(Fait & faitATest) const;
 
     /** @brief affichageRegle affiche toutes les informations concernant une règle */
     void affichageRegle();
+
+    /**
+     * @brief InformationRegle Renvoie une string des informations concernant la règle
+     * @return
+     */
+    std::string InformationRegle();
 
 private:
     std::vector<Condition> vecConditions;

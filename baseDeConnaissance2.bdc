@@ -1,0 +1,18 @@
+4
+5
+/-- Faits
+nom:michel
+symptome:fievre
+symptome:mal
+jeune:vrai
+/-- Regles
+symptome = rides,jeune = vrai / michel = bizarre
+symptome = fievre,symptome = mal / maladie = gastro
+jeune = vrai / age < %30
+nom = michel / symptome = rides
+age <= %40 / resultat = obtenu
+
+Voici un exemple de base de connaissance fonctionnelle
+UNIQUEMENT en chainage avant (Exemple avec resultat:obtenu en recherche)
+Le chainage arrière n'arrive pas à gérer les règles
+ayant des éléments différents de = en résultat

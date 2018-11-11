@@ -15,7 +15,7 @@ bool Regle::estRegleApplicable(baseDeConnaissance * BDC) const
         return false;
 }
 
-bool Regle::estResultat(Fait & faitATest) const
+bool Regle::donneResultat(Fait & faitATest) const
 {
     for (unsigned int i(0); i<vecResultatRegle.size();i++)
     {
@@ -39,6 +39,25 @@ void Regle::affichageRegle()
     for (unsigned int i(0); i<vecResultatRegle.size(); i++)
     {
         vecResultatRegle[i].affichageResultat();
+        std::cout << ",";
     }
     std::cout << std::endl;
+}
+
+std::string Regle::InformationRegle()
+{
+    std::string InfoRegle = "";
+    InfoRegle = InfoRegle + "Si ";
+    for (unsigned int i(0); i<vecConditions.size(); i++)
+    {
+        InfoRegle = InfoRegle + vecConditions[i].InformationCondition();
+        InfoRegle = InfoRegle + ",";
+    }
+    InfoRegle = InfoRegle + " alors ";
+    for (unsigned int i(0); i<vecResultatRegle.size(); i++)
+    {
+       InfoRegle = InfoRegle + vecResultatRegle[i].InformationResultat();
+       InfoRegle = InfoRegle + ",";
+    }
+    return InfoRegle;
 }

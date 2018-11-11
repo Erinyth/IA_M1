@@ -1,0 +1,48 @@
+Bonjour madame AMGHAR, voici quelques informations sur l'idée générale du programme.
+
+Les classes:
+	baseDeConnaissance
+- contient les méthodes liées à l'ajout de faits et de règles
+- vérification de l'appartenance de faits dans la BDC
+- vérification de la cohérence des faits
+- vérification de la cohérence des règles
+
+	moteur
+- contient les méthodes permettant le chainage avant et arrière (recherche par paquet de règle non réussi)
+- vérifie que les règles sont applicables (par les connaissances existantes, si de nouveaux faits vont être découverts, etc)
+
+	regle et fait
+- contient les informations sur ces éléments
+
+	condition
+- une condtion est de la forme X = Y, T <= A, etc...
+- contient les méthodes permettant de tester si une condition est applicable
+
+	mainwindow
+- gère la fenêtre et appelle les méthodes du moteur et de la base de connaissance
+
+Stratégies:
+- Le chainage avant et le chainage arrière n'ont pas impacté le langage d'expression des connaissances
+- La condition d'activation est faite par l'utilisateur
+- La recherche par paquet de règles n'a pas été réussie
+
+Cohérence:
+On a considéré qu'un fait vrai ne peut être passé à faux et inversement
+On a considéré qu'il ne peut exister deux mêmes faits chiffrés de valeurs différentes (exemple age = 3 et age = 12)
+Une règle ne peux pas donner X et non X ou alors des valeurs chiffrées différentes
+Exemple de règles non rajoutables:
+age = jeune / truc = %1, truc = %3
+var = valeur / jeune = faux, jeune = vrai
+ou encore ces deux règles à la suite:
+age = %3 / test = %87
+age = %3 / test = %12
+
+Autres informations IMPORTANTE:
+La syntaxe doit être respectée scrupuleusement lors de l'ajout de fait et de règles. Nous n'avons pas eu le temps d'implémenter
+la gestion de demandes mal formées.
+
+Nous espérons que notre programme satisfera tout de même à vos attentes.
+
+Codialement.
+Anais MOHR
+Bastien PIGACHE

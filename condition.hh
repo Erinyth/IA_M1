@@ -4,6 +4,7 @@
 #include <iostream>
 
 class baseDeConnaissance;
+class Fait;
 
 class Condition{
 public:
@@ -35,12 +36,35 @@ public:
         std::cout << eltTeste << " " << operateur << " " << valeurChaine;
     }
 
+    std::string InformationCondition() const
+    {
+        std::string InfoCondition = "";
+        InfoCondition = InfoCondition + eltTeste + " " + operateur + " " + valeurChaine;
+        return InfoCondition;
+    }
+
+    bool const operator==(Condition const& b)
+    {
+        if ((this->eltTeste == b.getEltTest()) && (this->valeurChaine == b.getValeurChaine()) && (this->operateur == b.getOperateur()) && (this->valeurInt == b.getValeurChiffre()))
+            return true;
+        else
+            return false;
+    }
+
     /**
      * @brief estConditionApplicable Retourne true si une condition est applicable
      * @param bdc
      * @return
      */
     bool estConditionApplicable(baseDeConnaissance * bdc) const;
+
+    /**
+     * @brief verifApplicationChiffre Appelé depuis estConditionApplicable
+     * Va faire les vérifications lorsque le fait est un chiffre
+     * @param faitATest
+     * @return
+     */
+    bool verifApplicationChiffre(Fait & faitATest) const;
 
     /**
      * @brief estResultatAutreRegle Retourne true si cette condition est le résultat d'une règle
